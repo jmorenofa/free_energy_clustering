@@ -1,0 +1,22 @@
+from pathlib import Path
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import nglview as nv
+import MDAnalysis as mda
+from MDAnalysis.analysis import rms, diffusionmap, align
+from MDAnalysis.analysis.distances import dist
+from MDAnalysis.analysis.hydrogenbonds.hbond_analysis import HydrogenBondAnalysis as HBA
+
+
+
+HERE = Path(_dh[-1])
+DATA = HERE / "data"
+
+md_universe = mda.Universe(str(DATA / "avg.pdb"), str(DATA / "average_trajectoryMDnow.nc"))
+dt = 2.0  
+time = np.arange(0, len(md_universe.trajectory) * dt, dt) 
+for ts, t in zip(md_universe.trajectory, time):
+    ts.dt = dt
+    ts.time = t
